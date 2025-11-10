@@ -11,7 +11,6 @@ void my_dgemv(int n, double* A, double* x, double* y) {
    for (int i = 0; i < n; i++) {
       double sum = 0.0;
       for (int j = 0; j < n; j++) {
-         // A[i][j] in row-major format is A[i*n + j]
          sum += A[i * n + j] * x[j];
       }
       y[i] = y[i] + sum;
