@@ -59,7 +59,6 @@ int main(int ac, char*av[])
    }
    printf("\n");
 
-   // Print number of threads being used
    #pragma omp parallel
    {
       #pragma omp single
