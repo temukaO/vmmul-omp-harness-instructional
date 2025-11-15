@@ -68,7 +68,7 @@ int main(int ac, char*av[])
       }
    }
 
-   sum(N, A, y);
+   sum_rows(N, A, y);
 
    // now do verification check
    int t=y[0], err=0, i;
