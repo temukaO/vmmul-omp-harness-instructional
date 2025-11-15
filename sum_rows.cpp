@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <stdio.h>
+#include <omp.h>
 
 void
 sum_rows(int N, int A[], int y[])
@@ -15,11 +16,13 @@ sum_rows(int N, int A[], int y[])
    // of N rows and N columns
 
    // For each row i, sum all values in row A[i,*] and place the sum into Y[i]
+   #pragma omp parallel for
    for (int i = 0; i < N; i++) {
-      Y[i] = 0;
+      int accum = 0;
       for (int j = 0; j < N; j++) {
-         Y[i] += A[i * N + j];
+         accum += A[i * N + j];
       }
+      y[i] = accum;
    }
 }
 
@@ -56,7 +59,16 @@ int main(int ac, char*av[])
    }
    printf("\n");
 
-   sum_rows(N, A, y);
+   // Print number of threads being used
+   #pragma omp parallel
+   {
+      #pragma omp single
+      {
+         printf("Number of threads: %d\n", omp_get_num_threads());
+      }
+   }
+
+   sum(N, A, y);
 
    // now do verification check
    int t=y[0], err=0, i;

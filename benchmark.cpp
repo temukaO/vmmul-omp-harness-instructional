@@ -93,12 +93,15 @@ int main(int argc, char** argv)
         memcpy((void *)Ycopy, (const void *)Y, sizeof(double)*n);
 
         // insert start timer code here
-
+        auto start_time = std::chrono::high_resolution_clock::now();
         // call the method to do the work
         my_dgemv(n, A, X, Y); 
 
         // insert end timer code here, and print out the elapsed time for this problem size
-
+        auto end_time = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+        double elapsed_time_seconds = duration.count() / 1000000.0;
+        printf(" Elapsed time = %.6f seconds\n", elapsed_time_seconds);
 
         // now invoke the cblas method to compute the matrix-vector multiplye
         reference_dgemv(n, Acopy, Xcopy, Ycopy);
